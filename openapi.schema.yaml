@@ -1,0 +1,451 @@
+openapi: 3.0.3
+info:
+  title: ''
+  version: 0.0.0
+paths:
+  /api/shipment/:
+    get:
+      operationId: api_shipment_retrieve
+      description: |-
+        Endpoint to get shipments details.
+
+        Args:
+            filters (dict): query param filters to be used to filter shipments
+
+        Returns:
+            List: List of shipments
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shipment'
+          description: ''
+  /api/shipment/{id}/print:
+    get:
+      operationId: api_shipment_print_retrieve
+      description: |-
+        Endpoint to print shipment waybill label
+
+        Args:
+            id (int): Shipment id
+
+        Returns:
+            File: waybill label PDF
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/shipment/cancel:
+    post:
+      operationId: api_shipment_cancel_create
+      description: |-
+        Endpoint to cancel shipment.
+        User can either provide id (shipment id) or tracking_id
+
+        Args:
+            id (int): shipment id
+            tracking_id (int): tracking id
+
+        Returns:
+            dict: Update shipment object
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateShipmentSerializerRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UpdateShipmentSerializerRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UpdateShipmentSerializerRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shipment'
+          description: ''
+  /api/shipment/create:
+    post:
+      operationId: api_shipment_create_create
+      description: |-
+        Endpoint to create new shipment.
+
+        Args:
+            data (Shipment): Shipment data
+
+        Returns:
+            Shipment: The newly create shipment object
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Shipment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Shipment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Shipment'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shipment'
+          description: ''
+  /api/shipment/update:
+    post:
+      operationId: api_shipment_update_create
+      description: |-
+        Endpoint to update shipment status.
+        It could be registered as a webhook to track shipment status
+
+        Args:
+            id (int): shipment id
+            tracking_id (int): tracking id
+
+        Returns:
+            dict: Update shipment object
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateShipmentSerializerRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UpdateShipmentSerializerRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UpdateShipmentSerializerRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shipment'
+          description: ''
+  /schema/:
+    get:
+      operationId: schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - ms
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - schema
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+components:
+  schemas:
+    ProviderEnum:
+      enum:
+      - ARAMEX
+      - SMSA
+      - SHIPBOX
+      type: string
+    Shipment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 300
+        provider:
+          $ref: '#/components/schemas/ProviderEnum'
+        length:
+          type: number
+          format: double
+          minimum: 0.1
+        width:
+          type: number
+          format: double
+          minimum: 0.1
+        height:
+          type: number
+          format: double
+          minimum: 0.1
+        weight:
+          type: number
+          format: double
+          minimum: 0.1
+        number_of_pieces:
+          type: integer
+          maximum: 2147483647
+          minimum: 1
+        product_country:
+          type: string
+          maxLength: 50
+        sender_name:
+          type: string
+          maxLength: 200
+        sender_mobile:
+          type: string
+          maxLength: 50
+        sender_email:
+          type: string
+          format: email
+          maxLength: 200
+        sender_full_address:
+          type: string
+          maxLength: 300
+        sender_country:
+          type: string
+          maxLength: 50
+        receiver_name:
+          type: string
+          maxLength: 200
+        receiver_mobile:
+          type: string
+          maxLength: 50
+        receiver_email:
+          type: string
+          format: email
+          maxLength: 200
+        receiver_full_address:
+          type: string
+          maxLength: 300
+        receiver_country:
+          type: string
+          maxLength: 50
+        shipping_date:
+          type: string
+          format: date-time
+        tracking_id:
+          type: string
+          nullable: true
+          maxLength: 200
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - description
+      - height
+      - id
+      - length
+      - number_of_pieces
+      - product_country
+      - provider
+      - receiver_country
+      - receiver_email
+      - receiver_full_address
+      - receiver_mobile
+      - receiver_name
+      - sender_country
+      - sender_email
+      - sender_full_address
+      - sender_mobile
+      - sender_name
+      - shipping_date
+      - title
+      - weight
+      - width
+    StatusEnum:
+      enum:
+      - REGISTERED
+      - PENDING
+      - TRANSIT
+      - DELIVERED
+      - FAILED
+      - CANCELLED
+      type: string
+    UpdateShipmentSerializerRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+        tracking_id:
+          type: string
+      required:
+      - id
+      - tracking_id
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
